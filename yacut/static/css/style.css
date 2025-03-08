@@ -117,6 +117,18 @@ a.regular-link:hover {
     margin-left: -2rem;
 }
 
+.button {
+    background-color: #0036e6;
+    border-radius: 5px;
+    color: #FFF;
+    font-size: 20px;
+}
+
+.button:hover {
+    background-color: #d60000;
+    color: #FFF;
+}
+
 footer a.regular-link {
     font-weight: 200;
 }
