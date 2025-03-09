@@ -17,21 +17,17 @@
           <form method="POST" novalidate>
             {{ form.hidden_tag() }}
             {{ form.original_link(class="form-control form-control-lg py-3 mb-3", placeholder=form.original_link.label.text) }}
-            {% if form.original_link.errors %}
-                <p class="text-danger">
-                  {% for error in form.original_link.errors %}
-                          {{ error }}
-                  {% endfor %}
-                </p>
-            {% endif %}
+              <p class="text-danger">
+                {% for error in form.original_link.errors %}
+                        {{ error }}
+                {% endfor %}
+              </p>
             {{ form.custom_id(class="form-control form-control-lg py-3 mb-3", placeholder=form.custom_id.label.text) }}
-            {% if form.custom_id.errors %}
-             <p class="text-danger">
+            <p class="text-danger">
               {% for error in form.custom_id.errors %}
                 {{ error }}
               {% endfor %}
-             </p>
-            {% endif %}
+            </p>
             {{ form.submit(class="button px-5 py-3 btn") }}
           </form>
         </div>
@@ -40,19 +36,23 @@
       </div>
     </div>  
     <div class="container">
-      <div class="row ">
+      <div class="row">
         <div class="col-sm">
         </div>
         <div class="col-sm">
           <p class="text-center">
             {% with messages = get_flashed_messages() %}
-              {% if messages %}
-                {% for message in messages %}
-                  {{ message | safe }}
-                {% endfor %}
-              {% endif %}
+              {% for message in messages %}
+                {{ message }}
+              {% endfor %}
             {% endwith %}
           </p>
+          {% if short %}
+          <p class="text-center">
+            Ваша новая ссылка готова: 
+            <a href="{{ short }}">{{ short }}</a>
+          </p>
+          {% endif %}
         </div>
         <div class="col-sm">
         </div>

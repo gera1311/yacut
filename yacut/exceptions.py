@@ -1,6 +1,8 @@
+from .constants import BAD_REQUEST_400
+
 
 class InvalidAPIUsage(Exception):
-    status_code = 400
+    status_code = BAD_REQUEST_400
 
     def __init__(self, message, status_code=None):
         super().__init__()
