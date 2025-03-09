@@ -95,7 +95,7 @@ Response:
 - 400: Некорректный запрос
 - 404: Короткая ссылка не найдена
 
-## Автор
-Ваше ФИО
+## Контактные данные
+
 - GitHub: [@gera1311](https://github.com/gera1311/yacut)
 - Email: gera.python@yandex.com
