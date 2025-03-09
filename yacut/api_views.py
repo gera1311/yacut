@@ -25,24 +25,24 @@ def add_custom_link():
 
     custom_id = data.get('custom_id') or random_short_id()
     validate_custom_id(custom_id)
-    if URLMap.query.filter_by(custom_link_id=custom_id).first():
+    if URLMap.query.filter_by(short=custom_id).first():
         raise InvalidAPIUsage(FIELD_EXISTS_MESSAGE)
 
     urlmap = URLMap(
-        original_link=data[URL],
-        custom_link_id=custom_id
+        original=data[URL],
+        short=custom_id
     )
     db.session.add(urlmap)
     db.session.commit()
     return jsonify({
-        URL: urlmap.original_link,
-        SHORT_LINK: urlmap.custom_link_id
+        URL: urlmap.original,
+        SHORT_LINK: request.host_url + custom_id
     }), 201
 
 
 @app.route('/api/id/<short_id>/', methods=['GET'])
 def get_original_link(short_id):
-    urlmap = URLMap.query.filter_by(custom_link_id=short_id).first()
+    urlmap = URLMap.query.filter_by(short=short_id).first()
     if urlmap is None:
         raise InvalidAPIUsage(ID_ERROR_MESSAGE, 404)
-    return jsonify({URL: urlmap.original_link}), 200
+    return jsonify({URL: urlmap.original}), 200

@@ -18,7 +18,7 @@ class URLForm(FlaskForm):
         validators=[DataRequired(message=REQUIRED_MESSAGE),
                     URL(message=URL_FORM_ERROR_MESSAGE)],
     )
-    custom_link_id = StringField(
+    custom_id = StringField(
         'Ваш вариант короткой ссылки',
         validators=[
             Optional(),

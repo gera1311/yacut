@@ -1,9 +1,9 @@
 BODY_ERROR_MESSAGE = 'Отсутствует тело запроса'
 FIELD_EXISTS_MESSAGE = 'Предложенный вариант короткой ссылки уже существует.'
 FLASH_NAME_EXISTS_MESSAGE = 'Имя уже занято!'
-FLASH_READY_SHORT_LINK = 'Короткая ссылка успешно создана'
+FLASH_READY_SHORT_LINK = 'Ваша новая ссылка готова:'
 ID_ERROR_MESSAGE = 'Указанный id не найден'
-LENGTH_ERROR_MESSAGE = 'Недопустимая длина короткой ссылки'
+LENGTH_ERROR_MESSAGE = 'Указано недопустимое имя для короткой ссылки'
 LENGTH_RANDOM_SHORT_ID = 6
 MAX_LENGTH_SHORT_ID = 16
 REGEX_ERROR_MESSAGE = 'Допустимы только латинские буквы и цифры'
