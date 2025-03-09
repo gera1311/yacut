@@ -1,0 +1,16 @@
+BODY_ERROR_MESSAGE = 'Отсутствует тело запроса'
+FIELD_EXISTS_MESSAGE = 'Предложенный вариант короткой ссылки уже существует.'
+FLASH_NAME_EXISTS_MESSAGE = 'Имя уже занято!'
+FLASH_READY_SHORT_LINK = 'Короткая ссылка успешно создана'
+ID_ERROR_MESSAGE = 'Указанный id не найден'
+LENGTH_ERROR_MESSAGE = 'Недопустимая длина короткой ссылки'
+LENGTH_RANDOM_SHORT_ID = 6
+MAX_LENGTH_SHORT_ID = 16
+REGEX_ERROR_MESSAGE = 'Допустимы только латинские буквы и цифры'
+REGEX_SHORT_ID = r'^[A-Za-z0-9]*$'
+REQUIRED_MESSAGE = 'Обязательное поле'
+SHORT_LINK = 'short_link'
+SYMBOLS_ERROR_MESSAGE = 'Указано недопустимое имя для короткой ссылки'
+URL = 'url'
+URL_ERROR_MESSAGE = f'\"{URL}\" является обязательным полем!'
+URL_FORM_ERROR_MESSAGE = 'Некорректный URL'
