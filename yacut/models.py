@@ -1,8 +1,7 @@
 import re
 from datetime import datetime
-from http import HTTPStatus
 from random import choices
-from flask import abort, request
+from flask import url_for
 
 from . import db
 from .constants import (
@@ -13,7 +12,6 @@ from .constants import (
     MAX_LENGTH_SHORT,
     REGEX_SHORT,
 )
-from .exceptions import InvalidAPIUsage
 
 ERROR_GENERATE_SHORT = 'Не удалось сгенерировать уникальный идентификатор'
 LENGTH_ERROR_MESSAGE = 'Указано недопустимое имя для короткой ссылки'
@@ -28,32 +26,27 @@ class URLMap(db.Model):
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
 
     @staticmethod
-    def is_short_unique(short):
-        """Проверяет, уникален ли короткий идентификатор."""
-        return URLMap.query.filter_by(short=short).first() is None
-
-    @staticmethod
     def get_unique_short():
         """Генерирует уникальный короткий идентификатор."""
         for _ in range(MAX_ATTEMPTS):
             short = ''.join(choices(ALLOWED_CHARS, k=LENGTH_RANDOM_SHORT))
-            if URLMap.is_short_unique(short):
+            if URLMap.query.filter_by(short=short).first() is None:
                 return short
-        raise InvalidAPIUsage(ERROR_GENERATE_SHORT)
+        raise RuntimeError(ERROR_GENERATE_SHORT)
 
     @staticmethod
     def create(original, short=None, skip_validation=False):
         """Создает новое сопоставление URL-адресов."""
         if not skip_validation:
             if len(original) > MAX_LENGTH_ORIGINAL:
-                raise InvalidAPIUsage(MAX_LENGTH_ORIGINAL)
+                raise ValueError(MAX_LENGTH_ORIGINAL)
         if short is not None:
             if len(short) > MAX_LENGTH_SHORT:
-                raise InvalidAPIUsage(LENGTH_ERROR_MESSAGE)
+                raise ValueError(LENGTH_ERROR_MESSAGE)
             if not re.match(REGEX_SHORT, short):
-                raise InvalidAPIUsage(SYMBOLS_ERROR_MESSAGE)
-            if not URLMap.is_short_unique(short):
-                raise InvalidAPIUsage(FIELD_EXISTS_MESSAGE)
+                raise ValueError(SYMBOLS_ERROR_MESSAGE)
+            if URLMap.query.filter_by(short=short).first():
+                raise ValueError(FIELD_EXISTS_MESSAGE)
         else:
             short = URLMap.get_unique_short()
 
@@ -63,16 +56,14 @@ class URLMap(db.Model):
         return url_map
 
     @staticmethod
-    def get_by_short(short):
+    def get_short(short):
         """Получает объект URLMap по короткому идентификатору."""
         url_map = URLMap.query.filter_by(short=short).first()
-        if url_map is None:
-            abort(HTTPStatus.NOT_FOUND)
         return url_map
 
-    def get_short_url(self):
+    def get_short_url(self, view):
         """Возвращает полный URL короткой ссылки."""
-        return request.host_url + self.short
+        return url_for(view, short=self.short, _external=True)
 
     def to_dict(self):
         """Преобразует объект URLMap в словарь."""
