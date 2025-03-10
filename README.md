@@ -53,6 +53,9 @@ flask run
 ```
 
 ## API Документация
+Полная техническая документация API доступна в файле [openapi.yml](openapi.yml). Вы можете просмотреть её с помощью любого OpenAPI/Swagger редактора, например:
+- [Swagger Editor](https://editor.swagger.io/)
+- [Redoc](https://redocly.github.io/redoc/)
 
 ### Создание короткой ссылки
 ```http
@@ -81,12 +84,7 @@ Response:
 }
 ```
 
-### Коды ответов
-- 201: Ссылка успешно создана
-- 400: Некорректный запрос
-- 404: Короткая ссылка не найдена
-
 ## Контактные данные
-
 - GitHub: [@gera1311](https://github.com/gera1311/yacut)
-- Email: gera.python@yandex.com
+- Email: [gera.python@yandex.com](mailto:gera.python@yandex.com)
+- Березовский Герман Андреевич
