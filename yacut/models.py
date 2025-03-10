@@ -42,8 +42,11 @@ class URLMap(db.Model):
         raise InvalidAPIUsage(ERROR_GENERATE_SHORT)
 
     @staticmethod
-    def create(original, short=None):
+    def create(original, short=None, skip_validation=False):
         """Создает новое сопоставление URL-адресов."""
+        if not skip_validation:
+            if len(original) > MAX_LENGTH_ORIGINAL:
+                raise InvalidAPIUsage(MAX_LENGTH_ORIGINAL)
         if short is not None:
             if len(short) > MAX_LENGTH_SHORT:
                 raise InvalidAPIUsage(LENGTH_ERROR_MESSAGE)
@@ -55,12 +58,8 @@ class URLMap(db.Model):
             short = URLMap.get_unique_short()
 
         url_map = URLMap(original=original, short=short)
-        try:
-            db.session.add(url_map)
-            db.session.commit()
-        except Exception:
-            db.session.rollback()
-            abort(HTTPStatus.INTERNAL_SERVER_ERROR)
+        db.session.add(url_map)
+        db.session.commit()
         return url_map
 
     @staticmethod

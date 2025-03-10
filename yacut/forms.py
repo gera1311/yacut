@@ -8,23 +8,26 @@ from .constants import (
     REGEX_SHORT,
 )
 
+TITLE_ORIGINAL_LINK = 'Длинная ссылка'
+TITLE_SHORT = 'Ваш вариант короткой ссылки'
 REQUIRED_MESSAGE = 'Обязательное поле'
 URL_FORM_ERROR_MESSAGE = 'Некорректный URL'
 REGEX_ERROR_MESSAGE = 'Допустимы только латинские буквы и цифры'
 SUBMIT_BUTTON_TEXT = 'Создать'
 LENGTH_ERROR_MESSAGE = 'Указано недопустимое имя для короткой ссылки'
+FIELD_EXISTS_MESSAGE = 'Предложенный вариант короткой ссылки уже существует.'
 
 
 class URLForm(FlaskForm):
     original_link = StringField(
-        'Длинная ссылка',
+        TITLE_ORIGINAL_LINK,
         validators=[DataRequired(message=REQUIRED_MESSAGE),
                     Length(max=MAX_LENGTH_ORIGINAL,
                            message=LENGTH_ERROR_MESSAGE),
                     URL(message=URL_FORM_ERROR_MESSAGE)],
     )
     custom_id = StringField(
-        'Ваш вариант короткой ссылки',
+        TITLE_SHORT,
         validators=[
             Optional(),
             Length(max=MAX_LENGTH_SHORT,
