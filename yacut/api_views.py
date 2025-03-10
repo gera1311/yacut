@@ -21,17 +21,19 @@ def add_custom_link():
     if 'url' not in data:
         raise InvalidAPIUsage(URL_ERROR_MESSAGE)
 
-    url_map = URLMap.create(data['url'], data.get('custom_id'))
-    return jsonify({
-        'url': url_map.original,
-        'short_link': url_map.get_short_url()
-    }), CREATED_201
+    try:
+        return jsonify({
+            'url': data['url'],
+            'short_link': URLMap.create(data['url'],
+                                        data.get('custom_id')).get_short_url()
+        }), CREATED_201
+    except InvalidAPIUsage as e:
+        raise e
 
 
 @app.route('/api/id/<string:short>/', methods=['GET'])
 def get_original_link(short):
-    try:
-        url_map = URLMap.get_by_short(short)
-    except Exception:
+    url_map = URLMap.query.filter_by(short=short).first()
+    if url_map is None:
         raise InvalidAPIUsage(ID_ERROR_MESSAGE, PAGE_NOT_FOUND_404)
     return jsonify({'url': url_map.original}), OK_200
