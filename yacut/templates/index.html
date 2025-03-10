@@ -19,7 +19,7 @@
             {{ form.original_link(class="form-control form-control-lg py-3 mb-3", placeholder=form.original_link.label.text) }}
               <p class="text-danger">
                 {% for error in form.original_link.errors %}
-                        {{ error }}
+                  {{ error }}
                 {% endfor %}
               </p>
             {{ form.custom_id(class="form-control form-control-lg py-3 mb-3", placeholder=form.custom_id.label.text) }}
@@ -47,11 +47,11 @@
               {% endfor %}
             {% endwith %}
           </p>
-          {% if short %}
-          <p class="text-center">
-            Ваша новая ссылка готова: 
-            <a href="{{ short }}">{{ short }}</a>
-          </p>
+          {% if shortened_url %}
+           <p class="text-center">
+             Ваша новая ссылка готова: 
+             <a href="{{ shortened_url }}">{{ shortened_url }}</a>
+           </p>
           {% endif %}
         </div>
         <div class="col-sm">

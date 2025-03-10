@@ -20,7 +20,7 @@ def generate_short_link():
         return render_template(
             'index.html',
             form=form,
-            short=url_map.get_short_url()
+            shortened_url=url_map.get_short_url()
         )
     except Exception:
         flash(FIELD_EXISTS_MESSAGE)
