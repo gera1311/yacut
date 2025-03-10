@@ -1,9 +1,10 @@
 from flask import flash, redirect, render_template
 
 from . import app
-from .constants import FIELD_EXISTS_MESSAGE
 from .forms import URLForm
 from .models import URLMap
+
+FIELD_EXISTS_MESSAGE = 'Предложенный вариант короткой ссылки уже существует.'
 
 
 @app.route('/', methods=['GET', 'POST'])

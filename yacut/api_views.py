@@ -3,13 +3,12 @@ from http import HTTPStatus
 from flask import jsonify, request
 
 from . import app
-from .constants import (
-    BODY_ERROR_MESSAGE,
-    ID_ERROR_MESSAGE,
-    URL_ERROR_MESSAGE,
-)
 from .exceptions import InvalidAPIUsage
 from .models import URLMap
+
+BODY_ERROR_MESSAGE = 'Отсутствует тело запроса'
+ID_ERROR_MESSAGE = 'Указанный id не найден'
+URL_ERROR_MESSAGE = '"url" является обязательным полем!'
 
 
 @app.route('/api/id/', methods=['POST'])

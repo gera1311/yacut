@@ -7,17 +7,18 @@ from flask import abort, request
 from . import db
 from .constants import (
     ALLOWED_CHARS,
-    ERROR_GENERATE_SHORT,
-    FIELD_EXISTS_MESSAGE,
-    LENGTH_ERROR_MESSAGE,
     LENGTH_RANDOM_SHORT,
     MAX_ATTEMPTS,
     MAX_LENGTH_ORIGINAL,
     MAX_LENGTH_SHORT,
     REGEX_SHORT,
-    SYMBOLS_ERROR_MESSAGE,
 )
 from .exceptions import InvalidAPIUsage
+
+ERROR_GENERATE_SHORT = 'Не удалось сгенерировать уникальный идентификатор'
+LENGTH_ERROR_MESSAGE = 'Указано недопустимое имя для короткой ссылки'
+SYMBOLS_ERROR_MESSAGE = 'Указано недопустимое имя для короткой ссылки'
+FIELD_EXISTS_MESSAGE = 'Предложенный вариант короткой ссылки уже существует.'
 
 
 class URLMap(db.Model):

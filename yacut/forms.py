@@ -3,15 +3,16 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired, Length, Optional, URL, Regexp
 
 from .constants import (
-    LENGTH_ERROR_MESSAGE,
     MAX_LENGTH_ORIGINAL,
     MAX_LENGTH_SHORT,
-    REGEX_ERROR_MESSAGE,
     REGEX_SHORT,
-    REQUIRED_MESSAGE,
-    SUBMIT_BUTTON_TEXT,
-    URL_FORM_ERROR_MESSAGE,
 )
+
+REQUIRED_MESSAGE = 'Обязательное поле'
+URL_FORM_ERROR_MESSAGE = 'Некорректный URL'
+REGEX_ERROR_MESSAGE = 'Допустимы только латинские буквы и цифры'
+SUBMIT_BUTTON_TEXT = 'Создать'
+LENGTH_ERROR_MESSAGE = 'Указано недопустимое имя для короткой ссылки'
 
 
 class URLForm(FlaskForm):
