@@ -1,21 +1,21 @@
 import re
 from datetime import datetime
-
+from http import HTTPStatus
+from random import choices
 from flask import abort, request
 
 from . import db
 from .constants import (
+    ALLOWED_CHARS,
     ERROR_GENERATE_SHORT,
     FIELD_EXISTS_MESSAGE,
-    INTERNAL_SERVER_ERROR_500,
     LENGTH_ERROR_MESSAGE,
+    LENGTH_RANDOM_SHORT,
     MAX_ATTEMPTS,
     MAX_LENGTH_ORIGINAL,
     MAX_LENGTH_SHORT,
-    PAGE_NOT_FOUND_404,
     REGEX_SHORT,
     SYMBOLS_ERROR_MESSAGE,
-    get_random_short,
 )
 from .exceptions import InvalidAPIUsage
 
@@ -35,7 +35,7 @@ class URLMap(db.Model):
     def get_unique_short():
         """Генерирует уникальный короткий идентификатор."""
         for _ in range(MAX_ATTEMPTS):
-            short = get_random_short()
+            short = ''.join(choices(ALLOWED_CHARS, k=LENGTH_RANDOM_SHORT))
             if URLMap.is_short_unique(short):
                 return short
         raise InvalidAPIUsage(ERROR_GENERATE_SHORT)
@@ -59,7 +59,7 @@ class URLMap(db.Model):
             db.session.commit()
         except Exception:
             db.session.rollback()
-            abort(INTERNAL_SERVER_ERROR_500)
+            abort(HTTPStatus.INTERNAL_SERVER_ERROR)
         return url_map
 
     @staticmethod
@@ -67,7 +67,7 @@ class URLMap(db.Model):
         """Получает объект URLMap по короткому идентификатору."""
         url_map = URLMap.query.filter_by(short=short).first()
         if url_map is None:
-            abort(PAGE_NOT_FOUND_404)
+            abort(HTTPStatus.NOT_FOUND)
         return url_map
 
     def get_short_url(self):

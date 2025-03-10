@@ -1,12 +1,11 @@
+from http import HTTPStatus
+
 from flask import jsonify, request
 
 from . import app
 from .constants import (
     BODY_ERROR_MESSAGE,
-    CREATED_201,
     ID_ERROR_MESSAGE,
-    OK_200,
-    PAGE_NOT_FOUND_404,
     URL_ERROR_MESSAGE,
 )
 from .exceptions import InvalidAPIUsage
@@ -26,7 +25,7 @@ def add_custom_link():
             'url': data['url'],
             'short_link': URLMap.create(data['url'],
                                         data.get('custom_id')).get_short_url()
-        }), CREATED_201
+        }), HTTPStatus.CREATED
     except InvalidAPIUsage as e:
         raise e
 
@@ -35,5 +34,5 @@ def add_custom_link():
 def get_original_link(short):
     url_map = URLMap.query.filter_by(short=short).first()
     if url_map is None:
-        raise InvalidAPIUsage(ID_ERROR_MESSAGE, PAGE_NOT_FOUND_404)
-    return jsonify({'url': url_map.original}), OK_200
+        raise InvalidAPIUsage(ID_ERROR_MESSAGE, HTTPStatus.NOT_FOUND)
+    return jsonify({'url': url_map.original}), HTTPStatus.OK
