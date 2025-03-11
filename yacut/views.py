@@ -34,3 +34,8 @@ def redirect_view(short):
     if url_map is None:
         abort(HTTPStatus.NOT_FOUND)
     return redirect(url_map.original)
+
+
+@app.route('/docs')
+def docs():
+    return render_template('docs.html')

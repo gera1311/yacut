@@ -53,9 +53,8 @@ flask run
 ```
 
 ## API Документация
-Полная техническая документация API доступна в файле [openapi.yml](openapi.yml). Вы можете просмотреть её с помощью любого OpenAPI/Swagger редактора, например:
-- [Swagger Editor](https://editor.swagger.io/)
-- [Redoc](https://redocly.github.io/redoc/)
+- Файл спецификации OpenAPI: [yacut/static/openapi.yml](yacut/static/openapi.yml)
+- Интерактивная документация Swagger доступна по [ссылке](http://localhost:5000/docs)
 
 ### Создание короткой ссылки
 ```http
