@@ -1,7 +1,6 @@
 from http import HTTPStatus
 
 from flask import render_template, jsonify
-from sqlalchemy.exc import SQLAlchemyError
 
 from . import app, db
 from .exceptions import InvalidAPIUsage
@@ -21,13 +20,5 @@ def page_not_found(error):
 
 @app.errorhandler(HTTPStatus.INTERNAL_SERVER_ERROR)
 def internal_server_error(error):
-    return render_template('500.html'), HTTPStatus.INTERNAL_SERVER_ERROR
-
-
-@app.errorhandler(SQLAlchemyError)
-def handle_sqlalchemy_error(error):
     db.session.rollback()
-    return jsonify({
-        "message": DB_ERROR_MESSAGE,
-        "error": str(error)
-    }), HTTPStatus.INTERNAL_SERVER_ERROR
+    return render_template('500.html'), HTTPStatus.INTERNAL_SERVER_ERROR
