@@ -53,7 +53,7 @@ flask run
 ```
 
 ## API Документация
-- Файл спецификации OpenAPI: [yacut/static/openapi.yml](yacut/static/openapi.yml)
+- Файл спецификации OpenAPI: [http://localhost:5000/static/openapi.yml](http://localhost:5000/static/openapi.yml)
 - Интерактивная документация Swagger доступна по [ссылке](http://localhost:5000/docs)
 
 ### Создание короткой ссылки
