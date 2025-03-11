@@ -20,7 +20,7 @@ def generate_short_link():
                 form.original_link.data,
                 form.custom_id.data or None,
                 skip_validation=True
-            ).get_short_url(view='redirect_view')
+            ).get_short_url()
         )
     except (ValueError, RuntimeError) as e:
         flash(str(e))
@@ -30,7 +30,7 @@ def generate_short_link():
 
 @app.route('/<string:short>')
 def redirect_view(short):
-    url_map = URLMap.get_short(short)
+    url_map = URLMap.get(short)
     if url_map is None:
         abort(HTTPStatus.NOT_FOUND)
     return redirect(url_map.original)

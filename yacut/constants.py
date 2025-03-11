@@ -8,3 +8,5 @@ ALLOWED_CHARS = f'{string.ascii_uppercase}' \
                 f'{string.ascii_lowercase}' \
                 f'{string.digits}'
 REGEX_SHORT = rf'^[{ALLOWED_CHARS}]*$'
+
+VIEW_REDIRECT = 'redirect_view'

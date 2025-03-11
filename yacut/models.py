@@ -1,6 +1,7 @@
 import re
 from datetime import datetime
 from random import choices
+
 from flask import url_for
 
 from . import db
@@ -11,6 +12,7 @@ from .constants import (
     MAX_LENGTH_ORIGINAL,
     MAX_LENGTH_SHORT,
     REGEX_SHORT,
+    VIEW_REDIRECT,
 )
 
 ERROR_GENERATE_SHORT = 'Не удалось сгенерировать уникальный идентификатор'
@@ -30,7 +32,7 @@ class URLMap(db.Model):
         """Генерирует уникальный короткий идентификатор."""
         for _ in range(MAX_ATTEMPTS):
             short = ''.join(choices(ALLOWED_CHARS, k=LENGTH_RANDOM_SHORT))
-            if URLMap.query.filter_by(short=short).first() is None:
+            if URLMap.get(short) is None:
                 return short
         raise RuntimeError(ERROR_GENERATE_SHORT)
 
@@ -41,11 +43,12 @@ class URLMap(db.Model):
             if len(original) > MAX_LENGTH_ORIGINAL:
                 raise ValueError(MAX_LENGTH_ORIGINAL)
         if short is not None:
-            if len(short) > MAX_LENGTH_SHORT:
-                raise ValueError(LENGTH_ERROR_MESSAGE)
-            if not re.match(REGEX_SHORT, short):
-                raise ValueError(SYMBOLS_ERROR_MESSAGE)
-            if URLMap.query.filter_by(short=short).first():
+            if not skip_validation:
+                if len(short) > MAX_LENGTH_SHORT:
+                    raise ValueError(LENGTH_ERROR_MESSAGE)
+                if not re.match(REGEX_SHORT, short):
+                    raise ValueError(SYMBOLS_ERROR_MESSAGE)
+            if URLMap.get(short):
                 raise ValueError(FIELD_EXISTS_MESSAGE)
         else:
             short = URLMap.get_unique_short()
@@ -56,14 +59,13 @@ class URLMap(db.Model):
         return url_map
 
     @staticmethod
-    def get_short(short):
+    def get(short):
         """Получает объект URLMap по короткому идентификатору."""
-        url_map = URLMap.query.filter_by(short=short).first()
-        return url_map
+        return URLMap.query.filter_by(short=short).first()
 
-    def get_short_url(self, view='redirect_view'):
+    def get_short_url(self):
         """Возвращает полный URL короткой ссылки."""
-        return url_for(view, short=self.short, _external=True)
+        return url_for(VIEW_REDIRECT, short=self.short, _external=True)
 
     def to_dict(self):
         """Преобразует объект URLMap в словарь."""
