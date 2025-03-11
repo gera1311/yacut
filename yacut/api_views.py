@@ -9,10 +9,6 @@ from .models import URLMap
 BODY_ERROR_MESSAGE = 'Отсутствует тело запроса'
 ID_ERROR_MESSAGE = 'Указанный id не найден'
 URL_ERROR_MESSAGE = '"url" является обязательным полем!'
-ERROR_GENERATE_SHORT = 'Не удалось сгенерировать уникальный идентификатор'
-LENGTH_ERROR_MESSAGE = 'Указано недопустимое имя для короткой ссылки'
-SYMBOLS_ERROR_MESSAGE = 'Указано недопустимое имя для короткой ссылки'
-FIELD_EXISTS_MESSAGE = 'Предложенный вариант короткой ссылки уже существует.'
 
 
 @app.route('/api/id/', methods=['POST'])
@@ -30,7 +26,7 @@ def add_custom_link():
                 original=data['url'],
                 short=data.get('custom_id'),
                 skip_validation=False
-            ).get_short_url(view='redirect_view')
+            ).get_short_url()
         }), HTTPStatus.CREATED
     except (ValueError, RuntimeError) as e:
         raise InvalidAPIUsage(str(e))

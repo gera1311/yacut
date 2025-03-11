@@ -61,7 +61,7 @@ class URLMap(db.Model):
         url_map = URLMap.query.filter_by(short=short).first()
         return url_map
 
-    def get_short_url(self, view):
+    def get_short_url(self, view='redirect_view'):
         """Возвращает полный URL короткой ссылки."""
         return url_for(view, short=self.short, _external=True)
 
